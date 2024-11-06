@@ -219,7 +219,7 @@
 
                           <!-- Edit IPv4 -->
                           <span v-show="clientEditAddressIdIPv4 !== client.id"
-                            @click="clientEditAddressIPv4 = client.address; clientEditAddressIdIPv4 = client.id; setTimeout(() => $refs['client-' + client.id + '-address'][0].select(), 1);"
+                            @click="clientEditAddressIPv4 = client.addressIPv4; clientEditAddressIdIPv4 = client.id; setTimeout(() => $refs['client-' + client.id + '-address'][0].select(), 1);"
                             class="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
                             <svg xmlns="http://www.w3.org/2000/svg"
                               class="h-4 w-4 inline align-middle opacity-25 hover:opacity-100" fill="none"
@@ -242,7 +242,7 @@
 
                           <!-- Edit IPv6 -->
                           <span v-show="clientEditAddressIdIPv6 !== client.id"
-                                @click="clientEditAddressIPv6 = client.address; clientEditAddressIdIPv6 = client.id; setTimeout(() => $refs['client-' + client.id + '-address'][0].select(), 1);"
+                                @click="clientEditAddressIPv6 = client.addressIPv6; clientEditAddressIdIPv6 = client.id; setTimeout(() => $refs['client-' + client.id + '-address'][0].select(), 1);"
                                 class="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  class="h-4 w-4 inline align-middle opacity-25 hover:opacity-100" fill="none"
