@@ -294,13 +294,22 @@ module.exports = class Server {
         await WireGuard.updateClientName({ clientId, name });
         return { success: true };
       }))
-      .put('/api/wireguard/client/:clientId/address', defineEventHandler(async (event) => {
+      .put('/api/wireguard/client/:clientId/addressIPv4', defineEventHandler(async (event) => {
         const clientId = getRouterParam(event, 'clientId');
         if (clientId === '__proto__' || clientId === 'constructor' || clientId === 'prototype') {
           throw createError({ status: 403 });
         }
         const { address } = await readBody(event);
-        await WireGuard.updateClientAddress({ clientId, address });
+        await WireGuard.updateClientAddressIPv4({ clientId, address });
+        return { success: true };
+      }))
+      .put('/api/wireguard/client/:clientId/addressIPv6', defineEventHandler(async (event) => {
+        const clientId = getRouterParam(event, 'clientId');
+        if (clientId === '__proto__' || clientId === 'constructor' || clientId === 'prototype') {
+          throw createError({ status: 403 });
+        }
+        const { address } = await readBody(event);
+        await WireGuard.updateClientAddressIPv6({ clientId, address });
         return { success: true };
       }))
       .put('/api/wireguard/client/:clientId/expireDate', defineEventHandler(async (event) => {

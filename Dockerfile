@@ -36,6 +36,7 @@ RUN apk add --no-cache \
     dumb-init \
     iptables \
     iptables-legacy \
+    ip6tables \
     wireguard-tools
 
 # Use iptables-legacy
