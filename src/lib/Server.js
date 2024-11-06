@@ -299,8 +299,8 @@ module.exports = class Server {
         if (clientId === '__proto__' || clientId === 'constructor' || clientId === 'prototype') {
           throw createError({ status: 403 });
         }
-        const { address } = await readBody(event);
-        await WireGuard.updateClientAddressIPv4({ clientId, address });
+        const { addressIPv4 } = await readBody(event);
+        await WireGuard.updateClientAddressIPv4({ clientId, addressIPv4 });
         return { success: true };
       }))
       .put('/api/wireguard/client/:clientId/addressIPv6', defineEventHandler(async (event) => {
@@ -308,8 +308,8 @@ module.exports = class Server {
         if (clientId === '__proto__' || clientId === 'constructor' || clientId === 'prototype') {
           throw createError({ status: 403 });
         }
-        const { address } = await readBody(event);
-        await WireGuard.updateClientAddressIPv6({ clientId, address });
+        const { addressIPv6 } = await readBody(event);
+        await WireGuard.updateClientAddressIPv6({ clientId, addressIPv6 });
         return { success: true };
       }))
       .put('/api/wireguard/client/:clientId/expireDate', defineEventHandler(async (event) => {
