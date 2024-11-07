@@ -102,7 +102,7 @@ module.exports = class WireGuard {
 # Server
 [Interface]
 PrivateKey = ${config.server.privateKey}
-Address = ${config.server.addressIPv4}/32, ${config.server.addressIPv6}/128
+Address = ${config.server.addressIPv4}/24, ${config.server.addressIPv6}/56
 ListenPort = ${WG_PORT}
 PreUp = ${WG_PRE_UP}
 PostUp = ${WG_POST_UP}
@@ -119,7 +119,7 @@ PostDown = ${WG_POST_DOWN}
 [Peer]
 PublicKey = ${client.publicKey}
 ${client.preSharedKey ? `PresharedKey = ${client.preSharedKey}\n` : ''
-}AllowedIPs = ${client.addressIPv4}/32, ${client.addressIPv6}/128`;
+}AllowedIPs = ${client.addressIPv4}/24, ${client.addressIPv6}/56`;
     }
 
     debug('Config saving...');
@@ -215,7 +215,8 @@ ${client.preSharedKey ? `PresharedKey = ${client.preSharedKey}\n` : ''
     return `
 [Interface]
 PrivateKey = ${client.privateKey ? `${client.privateKey}` : 'REPLACE_ME'}
-Address = ${client.addressIPv4}/32, ${client.addressIPv6}/128
+Address = ${client.addressIPv4}/24, ${client.addressIPv6}/56
+ListenPort = ${WG_CONFIG_PORT}
 ${WG_DEFAULT_DNS ? `DNS = ${WG_DEFAULT_DNS}\n` : ''}\
 ${WG_MTU ? `MTU = ${WG_MTU}\n` : ''}\
 
