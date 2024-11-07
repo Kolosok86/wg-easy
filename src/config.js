@@ -24,28 +24,10 @@ module.exports.WG_DEFAULT_DNS = typeof process.env.WG_DEFAULT_DNS === 'string'
 module.exports.WG_ALLOWED_IPS = process.env.WG_ALLOWED_IPS || '0.0.0.0/0, ::/0';
 
 module.exports.WG_PRE_UP = process.env.WG_PRE_UP || '';
-module.exports.WG_POST_UP = process.env.WG_POST_UP || `
-iptables -t nat -A POSTROUTING -s ${module.exports.WG_DEFAULT_ADDRESS_IPV4.replace('x', '0')}/32 -o ${module.exports.WG_DEVICE} -j MASQUERADE;
-iptables -A INPUT -p udp -m udp --dport ${module.exports.WG_PORT} -j ACCEPT;
-iptables -A FORWARD -i wg0 -j ACCEPT;
-iptables -A FORWARD -o wg0 -j ACCEPT;
-ip6tables -t nat -A POSTROUTING -s ${module.exports.WG_DEFAULT_ADDRESS_IPV6.replace('x', '0')}/128 -o ${module.exports.WG_DEVICE} -j MASQUERADE;
-ip6tables -A INPUT -p udp -m udp --dport ${module.exports.WG_PORT} -j ACCEPT;
-ip6tables -A FORWARD -i wg0 -j ACCEPT;
-ip6tables -A FORWARD -o wg0 -j ACCEPT;
-`.split('\n').join(' ');
+module.exports.WG_POST_UP = process.env.WG_POST_UP || `ufw route allow in on wg0 out on eth0; iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE; ip6tables -t nat -I POSTROUTING -o eth0 -j MASQUERADE;`;
 
 module.exports.WG_PRE_DOWN = process.env.WG_PRE_DOWN || '';
-module.exports.WG_POST_DOWN = process.env.WG_POST_DOWN || `
-iptables -t nat -D POSTROUTING -s ${module.exports.WG_DEFAULT_ADDRESS_IPV4.replace('x', '0')}/32 -o ${module.exports.WG_DEVICE} -j MASQUERADE;
-iptables -D INPUT -p udp -m udp --dport ${module.exports.WG_PORT} -j ACCEPT;
-iptables -D FORWARD -i wg0 -j ACCEPT;
-iptables -D FORWARD -o wg0 -j ACCEPT;
-ip6tables -t nat -D POSTROUTING -s ${module.exports.WG_DEFAULT_ADDRESS_IPV6.replace('x', '0')}/128 -o ${module.exports.WG_DEVICE} -j MASQUERADE;
-ip6tables -D INPUT -p udp -m udp --dport ${module.exports.WG_PORT} -j ACCEPT;
-ip6tables -D FORWARD -i wg0 -j ACCEPT;
-ip6tables -D FORWARD -o wg0 -j ACCEPT;
-`.split('\n').join(' ');
+module.exports.WG_POST_DOWN = process.env.WG_POST_DOWN || `ufw route delete allow in on wg0 out on eth0; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE;`;
 module.exports.LANG = process.env.LANG || 'en';
 module.exports.UI_TRAFFIC_STATS = process.env.UI_TRAFFIC_STATS || 'false';
 module.exports.UI_CHART_TYPE = process.env.UI_CHART_TYPE || 0;
