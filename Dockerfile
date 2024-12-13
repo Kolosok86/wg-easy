@@ -41,7 +41,6 @@ RUN apk add --no-cache \
 
 # Use iptables-legacy
 RUN update-alternatives --install /sbin/iptables iptables /sbin/iptables-legacy 10 --slave /sbin/iptables-restore iptables-restore /sbin/iptables-legacy-restore --slave /sbin/iptables-save iptables-save /sbin/iptables-legacy-save
-RUN update-alternatives --install /sbin/ip6tables ip6tables /sbin/ip6tables-legacy 10 --slave /sbin/ip6tables-restore ip6tables-restore /sbin/ip6tables-legacy-restore --slave /sbin/ip6tables-save ip6tables-save /sbin/ip6tables-legacy-save
 
 # Set Environment
 ENV DEBUG=Server,WireGuard
